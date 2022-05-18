@@ -25,6 +25,7 @@ namespace BlogPost.API.Controllers
             return Ok(posts);
         }
         //GetsinglePost
+      
         [HttpGet]
         [Route("{id:Guid}")]
         [ActionName("GetPostById")]
@@ -37,6 +38,8 @@ namespace BlogPost.API.Controllers
             }
             return NotFound();
         }
+       
+        
         [HttpPost]//insert
         public async Task<IActionResult> AddPost(AddPostRequest addPostRequest)
         {
@@ -60,24 +63,45 @@ namespace BlogPost.API.Controllers
 
             return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, post);
         }
+       
         [HttpPut]//update
         [Route("{id:Guid}")]
         public async Task<IActionResult> UppdatePost([FromRoute]Guid id, UpdatePostRequest updatePostRequest)
         {
-            //convert DTO to entity
-            var post = new Post()
-            {
-                Title = updatePostRequest.Title,
-                Content = updatePostRequest.Content,
-                Author = updatePostRequest.Author,
-                FeaturedImageUrl = updatePostRequest.FeaturedImageUrl,
-                PublishDate = updatePostRequest.PublishDate,
-                UpdateDate = updatePostRequest.UpdateDate,
-                Summary = updatePostRequest.Summary,
-                UrlHandle = updatePostRequest.UrlHandle,
-                Visible = updatePostRequest.Visible
+                 
 
-            };
+            //check if exists
+            var existsPost= await dbContext.Posts.FindAsync(id);
+            if (existsPost != null)
+            {
+                existsPost.Author = updatePostRequest.Author;
+                existsPost.Title = updatePostRequest.Title;
+                existsPost.Content = updatePostRequest.Content;
+                existsPost.FeaturedImageUrl = updatePostRequest.FeaturedImageUrl;
+                existsPost.PublishDate = updatePostRequest.PublishDate;
+                existsPost.UpdateDate = updatePostRequest.UpdateDate;
+                existsPost.Summary = updatePostRequest.Summary;
+                existsPost.UrlHandle = updatePostRequest.UrlHandle;
+                existsPost.Visible = updatePostRequest.Visible;
+
+                await dbContext.SaveChangesAsync();
+                return Ok(existsPost);
+            }
+            return NotFound();
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeletePost(Guid id)
+        {
+            var existingPost =await dbContext.Posts.FindAsync(id);
+            if( existingPost != null)
+            {
+                dbContext.Remove(existingPost);
+                await dbContext.SaveChangesAsync();
+                return Ok(existingPost);
+            }
+            return NotFound();
         }
     }
 }

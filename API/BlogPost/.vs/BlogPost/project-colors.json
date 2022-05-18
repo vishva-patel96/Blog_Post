@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "23286802-5972-4c9a-bd7e-2703e05afdd6": {
+      "ProjectGuid": "23286802-5972-4c9a-bd7e-2703e05afdd6",
+      "DisplayName": "BlogPost.API",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
