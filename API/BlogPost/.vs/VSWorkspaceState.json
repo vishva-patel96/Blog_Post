@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\BlogPost",
+    "\\BlogPost.API",
+    "\\BlogPost.API\\Controllers"
+  ],
+  "SelectedNode": "\\BlogPost.API\\Controllers\\PostsController.cs",
+  "PreviewInSolutionExplorer": false
+}
